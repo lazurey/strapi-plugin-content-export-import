@@ -1,0 +1,30 @@
+{
+  "name": "strapi-plugin-content-export-import",
+  "version": "0.0.1",
+  "description": "This is a plugin for content import and export.",
+  "strapi": {
+    "name": "Content Export & Import",
+    "icon": "plug",
+    "description": "Description of content-export-import plugin."
+  },
+  "dependencies": {
+    "file-saver": "^2.0.2"
+  },
+  "author": {
+    "name": "lazurey",
+    "email": "lazureys@gmail.com",
+    "url": ""
+  },
+  "maintainers": [
+    {
+      "name": "lazurey",
+      "email": "lazureys@gmail.com",
+      "url": ""
+    }
+  ],
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}
