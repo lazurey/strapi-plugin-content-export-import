@@ -1,4 +1,3 @@
-
 import { request } from "strapi-helper-plugin";
 import { filter } from 'lodash';
 
@@ -17,6 +16,7 @@ export const getModels = () => {
 };
 
 export const getCollectionEntriesByApiId = (apiId) => {
+  // TODO: find the proper api id for widgets
   return request(`/${apiId}s`, {
     method: 'GET'
   });

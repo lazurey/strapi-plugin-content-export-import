@@ -1,36 +1,23 @@
 'use strict';
 
-/**
- * ContentExportImport.js controller
- *
- * @description: A set of functions called "actions" of the `content-export-import` plugin.
- */
+const PLUGIN_ID = 'content-export-import';
 
-/*
-# POC TODO:
-## Export
-* list out possible export content
-  * Dashboard widgets
-  * Layout
-* Export to some format, sql, json, csv?
-
-## Import
-
-*/
 module.exports = {
-
-  /**
-   * Default action.
-   *
-   * @return {Object}
-   */
-
   index: async (ctx) => {
-    // Add your own logic here.
-
-    // Send 200 `ok`
     ctx.send({
-      message: 'ok'
+      message: 'ok',
     });
+
+  },
+  importContent: async (ctx) => {
+    const importService = strapi.plugins[PLUGIN_ID].services['contentexportimport'];
+    const { targetModel, source, kind } = ctx.request.body;
+    if (!targetModel || !source || !kind) {
+      ctx.response.status = 400;
+      ctx.response.message = "Required parameters not sent!";
+      return;
+    }
+    await importService.importData(ctx);
+    ctx.send('ok');
   }
 };

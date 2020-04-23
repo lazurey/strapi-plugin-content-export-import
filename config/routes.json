@@ -1,9 +1,9 @@
 {
   "routes": [
     {
-      "method": "GET",
-      "path": "/content-export-import/main",
-      "handler": "ContentExportImport.index",
+      "method": "POST",
+      "path": "/import",
+      "handler": "ContentExportImport.importContent",
       "config": {
         "policies": []
       }

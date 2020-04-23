@@ -15,9 +15,7 @@ const ImportPage = () => {
     async function loadContentTypes() {
       const models = await getModels();
       setModels(models);
-      console.log(models);
     }
-
     loadContentTypes();
   }, []);
   return (

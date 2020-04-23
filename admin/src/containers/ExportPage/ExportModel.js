@@ -14,9 +14,7 @@ const ExportModel = ({model}) => {
   const [fetching, setFetching] = useState(false);
   const [content, setContent] = useState(null);
   const fetchModelData = () => {
-    console.log(model);
     setFetching(true);
-
     const fetchMethod = (kind === MODEL_KIND.collection)
       ? getCollectionEntriesByApiId
       : getSingleEntryByApiId;

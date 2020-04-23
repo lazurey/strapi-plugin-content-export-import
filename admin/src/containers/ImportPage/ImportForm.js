@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {Button, InputSelect} from "strapi-helper-plugin";
 import {convertModelToOption} from "../../utils/convertOptions";
-import {map} from 'lodash';
+import {find, get, map} from 'lodash';
 import {FieldRow, FileField, FormAction} from "./ui-components";
 import {readLocalFile} from "../../utils/file";
 import JsonDataDisplay from "../../components/JsonDataDisplay";
+import {importData} from "../../utils/import";
 
 const ImportForm = ({models}) => {
   const options = map(models, convertModelToOption);
@@ -28,20 +29,40 @@ const ImportForm = ({models}) => {
 
   const upload = () => {
     if (!sourceFile) {
+      strapi.notification.error("Please choose a source file first.");
       return;
     }
     setLoading(true);
     readLocalFile(sourceFile, JSON.parse).then(setSource)
-    // TODO: show error message
-    .catch(console.log).
-    finally(() => {
+    .catch((error) => {
+      strapi.notification.error(
+        "Something wrong when uploading the file, please check the file and try again.");
+      console.error(error)
+    }).finally(() => {
       setLoading(false);
     })
   };
 
   const submit = () => {
     // TODO: form value validate
-    console.log(targetModel);
+    if (!source) {
+      strapi.notification.error("Please choose a source file first.");
+      return;
+    }
+    const model = find(models, (model) => model.apiID === targetModel) || models[0];
+    setLoading(true);
+    importData({
+      targetModel: model.uid,
+      source,
+      kind: get(model, 'schema.kind'),
+    }).then(() => {
+      strapi.notification.success("Import succeeded!");
+    }).catch((error) => {
+      console.log(error);
+      strapi.notification.error("Failed: " + error.message);
+    }).finally(() => {
+      setLoading(false);
+    });
   };
   return (<div>
     <FieldRow>
@@ -55,14 +76,14 @@ const ImportForm = ({models}) => {
         />
       </FileField>
     </FieldRow>
-    { source
-      ? (<JsonDataDisplay data={source} />)
+    {source
+      ? (<JsonDataDisplay data={source}/>)
       : (<FormAction>
-          <Button disabled={loading}
-                  onClick={upload}
-                  secondaryHotline>{loading ? "Please Wait..."
-            : "Upload"}</Button>
-        </FormAction>)
+        <Button disabled={loading}
+                onClick={upload}
+                secondaryHotline>{loading ? "Please Wait..."
+          : "Upload"}</Button>
+      </FormAction>)
     }
     <FieldRow>
       <label htmlFor="target-content-type">Target Content Type</label>
