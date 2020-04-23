@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const CodeWrapper = styled.pre`
@@ -22,10 +21,6 @@ const JsonDataDisplay = ({ data }) => {
       }
     </CodeWrapper>
   </div>)
-};
-
-JsonDataDisplay.propTypes = {
-  data: PropTypes.array || PropTypes.object,
 };
 
 export default JsonDataDisplay;

@@ -8,11 +8,11 @@ const Nav = () => {
   return (<HeaderNav
     links={[
       {
-        name: "Export Data",
+        name: "Export",
         to: getUrl(pluginId, "export")
       },
       {
-        name: "Import Import",
+        name: "Import",
         to: getUrl(pluginId, "import")
       }
     ]}
