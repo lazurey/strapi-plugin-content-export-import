@@ -1,6 +1,7 @@
 'use strict';
 
-const importItemByContentType = require('./utils/content').importItemByContentType;
+const uitls  = require('./utils/content');
+const _ = require('lodash');
 
 /**
  * ContentExportImport.js service
@@ -13,16 +14,24 @@ module.exports = {
     const { targetModel, source, kind } = ctx.request.body;
     try {
       if (kind === 'collectionType' && Array.isArray(source)) {
-        // await deleteAll(id);
         for (let i = 0; i < source.length; i++) {
-          await importItemByContentType(targetModel, source[i])
+          await uitls.importItemByContentType(targetModel, source[i])
         }
       } else {
-        await importItemByContentType(targetModel, source);
+        await uitls.importSingleType(targetModel, source);
       }
     } catch (e) {
       ctx.throw(409, e.message);
     }
-    // return importContentByContentType(targetModel, source, kind);
+  },
+  deleteAllData: async (targetModelUid, ctx) => {
+    try {
+      const all = await uitls.findAll(targetModelUid);
+      const ids = _.map(all, (item) => item.id);
+      await uitls.deleteByIds(targetModelUid, ids);
+      return all.length;
+    } catch (e) {
+      ctx.throw(409, e.message);
+    }
   }
 };

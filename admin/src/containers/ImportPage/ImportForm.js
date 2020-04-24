@@ -1,20 +1,24 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Button, InputSelect} from "strapi-helper-plugin";
 import {convertModelToOption} from "../../utils/convertOptions";
 import {find, get, map} from 'lodash';
 import {FieldRow, FileField, FormAction} from "./ui-components";
 import {readLocalFile} from "../../utils/file";
 import JsonDataDisplay from "../../components/JsonDataDisplay";
-import {importData} from "../../utils/import";
+import {importData} from "../../utils/api";
 
 const ImportForm = ({models}) => {
   const options = map(models, convertModelToOption);
-
   const [loading, setLoading] = useState(false);
-
-  const [targetModel, setTargetModel] = useState(undefined);
+  const [targetModelUid, setTargetModel] = useState(undefined);
   const [sourceFile, setSourceFile] = useState(null);
   const [source, setSource] = useState(null);
+
+  useEffect(() => {
+    if (!targetModelUid && models && models.length > 0) {
+      setTargetModel(models[0].uid);
+    }
+  }, [models]);
 
   const onTargetModelChange = (event) => {
     setTargetModel(event.target.value);
@@ -44,12 +48,15 @@ const ImportForm = ({models}) => {
   };
 
   const submit = () => {
-    // TODO: form value validate
+    if (!targetModelUid) {
+      strapi.notification.error("Please select a target content type!");
+      return;
+    }
     if (!source) {
       strapi.notification.error("Please choose a source file first.");
       return;
     }
-    const model = find(models, (model) => model.apiID === targetModel) || models[0];
+    const model = find(models, (model) => model.uid === targetModelUid);
     setLoading(true);
     importData({
       targetModel: model.uid,
@@ -90,7 +97,7 @@ const ImportForm = ({models}) => {
       <InputSelect name="targetContentType"
                    id="target-content-type"
                    selectOptions={options}
-                   value={targetModel}
+                   value={targetModelUid}
                    onChange={onTargetModelChange}/>
     </FieldRow>
     <FormAction>

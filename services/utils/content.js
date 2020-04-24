@@ -1,20 +1,31 @@
-// const _ = require('lodash');
-
-const importItemByContentType = async (id, item) => {
+const importItemByContentType = (id, item) => {
   return strapi.query(id).create(item);
 };
-//
-// const deleteAll = async (id) => {
-//   const data = await strapi.query(id).find({
-//     created_at: new Date()
-//   });
-//
-// // Delete all entries fetched.
-//   data.forEach((entry) => strapi.query(id).delete({
-//     id: entry.id
-//   }));
-// };
+
+const importSingleType = async (uid, item) => {
+  const existing = await strapi.query(uid).find({});
+  if (existing.length > 0) {
+    return strapi.query(uid).update({
+      id: existing[0].id,
+    }, item)
+  } else {
+    return strapi.query(uid).create(item);
+  }
+};
+
+const findAll = (uid) => {
+  return strapi.query(uid).find({});
+};
+
+const deleteByIds = (uid, ids) => {
+  return strapi.query(uid).delete({
+    id_in: ids
+  });
+};
 
 module.exports = {
   importItemByContentType,
+  findAll,
+  deleteByIds,
+  importSingleType,
 };

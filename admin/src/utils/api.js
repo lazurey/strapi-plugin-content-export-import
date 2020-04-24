@@ -7,3 +7,13 @@ export const importData = (body) => {
     body,
   });
 };
+
+export const deleteAll = (targetModelUid) => {
+  return request(`/${pluginId}/delete-all`, {
+      method: 'POST',
+      body: {
+        targetModelUid,
+      },
+    }
+  );
+};
