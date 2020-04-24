@@ -5,11 +5,6 @@ const PLUGIN_ID = 'content-export-import';
 const validator = require('./validations');
 
 module.exports = {
-  index: async (ctx) => {
-    ctx.send({
-      message: 'ok',
-    });
-  },
   importContent: async (ctx) => {
     const importService = strapi.plugins[PLUGIN_ID].services['contentexportimport'];
     const validationResult = validator.validateImportContentRequest(

@@ -12,5 +12,13 @@ module.exports = {
     "!*.config.js",
     "!**/node_modules/**",
     "!coverage/**",
-  ]
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 90,
+      functions: 90,
+      lines: 90,
+      statements: 90
+    }
+  }
 };
