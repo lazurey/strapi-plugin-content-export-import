@@ -1,5 +1,6 @@
 import { request } from "strapi-helper-plugin";
 import { filter } from 'lodash';
+import {MODEL_KIND} from "../constants/model-kind";
 
 export const getModels = () => {
   return request("/content-type-builder/content-types", {
@@ -10,20 +11,12 @@ export const getModels = () => {
     } else {
       return [];
     }
-  }).catch((error) => {
+  }).catch(() => {
     return [];
   });
 };
 
-export const getCollectionEntriesByApiId = (apiId) => {
-  // TODO: find the proper api id for widgets
-  return request(`/${apiId}s`, {
-    method: 'GET'
-  });
-};
-
-export const getSingleEntryByApiId = (apiId) => {
-  return request(`/${apiId}`, {
-    method: 'GET'
-  });
+export const fetchEntries = (apiId, kind) => {
+  const url = (kind === MODEL_KIND.collection) ? `/${apiId}s` : `/${apiId}`;
+  return request(url, { method: 'GET' });
 };
