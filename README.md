@@ -12,9 +12,16 @@ cd /<path-to-your-strapi-project
 # go to plugins folder
 cd plugins
 
-# clone the plugin code
-git clone git@github.com:lazurey/strapi-plugin-content-export-import.git
-yarn install
+# clone the plugin code into a folder and skip the prefix
+git clone git@github.com:lazurey/strapi-plugin-content-export-import.git content-export-import
+# install dependencies
+cd conetnt-export-import && yarn install
+# build the plugin
+cd ../..
+yarn build
+
+# start
+yarn develop
 ```
 
 ## Plugin development
@@ -25,9 +32,9 @@ Running at http://localhost:8000/
 
 ## Todo
 
-- [ ] How to install in an existing Strapi
-- [ ] Permission issues in normal mode
-- [ ] Update or clean & insert
+- [x] How to install in an existing Strapi
+- [x] Permission issues in normal mode
+- [x] Update or clean & insert
 
 ## References
 
