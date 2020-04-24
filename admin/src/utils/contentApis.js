@@ -6,11 +6,7 @@ export const getModels = () => {
   return request("/content-type-builder/content-types", {
     method: "GET",
   }).then((response) => {
-    if (response.data) {
-      return filter(response.data, (model) => !model.plugin);
-    } else {
-      return [];
-    }
+    return filter(response.data, (model) => !model.plugin)
   }).catch(() => {
     return [];
   });
