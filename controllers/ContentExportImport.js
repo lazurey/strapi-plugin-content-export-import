@@ -2,6 +2,8 @@
 
 const PLUGIN_ID = 'content-export-import';
 
+const validator = require('./validations');
+
 module.exports = {
   index: async (ctx) => {
     ctx.send({
@@ -10,10 +12,10 @@ module.exports = {
   },
   importContent: async (ctx) => {
     const importService = strapi.plugins[PLUGIN_ID].services['contentexportimport'];
-    const { targetModel, source, kind } = ctx.request.body;
-    if (!targetModel || !source || !kind) {
-      ctx.response.status = 400;
-      ctx.response.message = "Required parameters not sent!";
+    const validationResult = validator.validateImportContentRequest(
+      ctx.request.body);
+    if (validationResult) {
+      ctx.throw(400, validationResult);
       return;
     }
     await importService.importData(ctx);
@@ -23,13 +25,13 @@ module.exports = {
   },
   deleteAllContent: async (ctx) => {
     const importService = strapi.plugins[PLUGIN_ID].services['contentexportimport'];
-    const { targetModelUid } = ctx.request.body;
-    if (!targetModelUid) {
-      ctx.response.status = 400;
-      ctx.response.message = "Required parameters not sent!";
+    const validationResult = validator.validateDeleteRequest(ctx.request.body);
+    if (validationResult) {
+      ctx.throw(400, validationResult);
       return;
     }
-    const count = await importService.deleteAllData(targetModelUid, ctx);
+    const count = await importService.deleteAllData(
+      ctx.request.body.targetModelUid, ctx);
     ctx.send({
       message: 'ok',
       count,
