@@ -1,6 +1,6 @@
 # Strapi plugin content-export-import
 
-A quick description of content-export-import.
+![](https://github.com/lazurey/strapi-plugin-content-export-import/workflows/Run-Tests/badge.svg)
 
 ## First Setup
 ```bash

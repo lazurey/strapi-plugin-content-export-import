@@ -11,7 +11,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "file-saver": "^2.0.2"
+    "file-saver": "^2.0.2",
+    "strapi-helper-plugin": "^3.0.0-beta.20"
   },
   "author": {
     "name": "lazurey",
