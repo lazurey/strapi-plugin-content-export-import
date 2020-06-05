@@ -1,6 +1,6 @@
 'use strict';
 
-const uitls  = require('./utils/content');
+const uitls = require('./utils/content');
 const _ = require('lodash');
 
 /**
@@ -11,11 +11,11 @@ const _ = require('lodash');
 
 module.exports = {
   importData: async (ctx) => {
-    const { targetModel, source, kind } = ctx.request.body;
+    const {targetModel, source, kind} = ctx.request.body;
     try {
       if (kind === 'collectionType' && Array.isArray(source)) {
         for (let i = 0; i < source.length; i++) {
-          await uitls.importItemByContentType(targetModel, source[i])
+          await uitls.importItemByContentType(targetModel, source[i]);
         }
       } else {
         await uitls.importSingleType(targetModel, source);
@@ -33,5 +33,5 @@ module.exports = {
     } catch (e) {
       ctx.throw(409, e.message);
     }
-  }
+  },
 };

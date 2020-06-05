@@ -1,7 +1,7 @@
 const importItemByContentType = async (id, item) => {
   // Get the model definition - Maybe there's a more elegant way?
   const modelName = id.split('.').reverse()[0];
-  const { attributes } = strapi.models[modelName];
+  const {attributes} = strapi.models[modelName];
   // Get which fields are unique indexes
   const uniqueIndexes = Object.keys(attributes).filter(
     (aName) => attributes[aName].index && attributes[aName].unique
@@ -17,9 +17,9 @@ const importItemByContentType = async (id, item) => {
   });
 
   if (search.length > 0) {
-    const existingItem = await strapi.query(id).model.findOne({ $or: search });
+    const existingItem = await strapi.query(id).model.findOne({$or: search});
     if (existingItem) {
-      return strapi.query(id).update({ id: existingItem.id }, item);
+      return strapi.query(id).update({id: existingItem.id}, item);
     }
   }
   return strapi.query(id).create(item);

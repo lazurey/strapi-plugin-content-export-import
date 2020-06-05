@@ -1,4 +1,4 @@
-import { findAll, importSingleType, importItemByContentType } from '../content';
+import {findAll, importSingleType, importItemByContentType} from '../content';
 
 describe('# Stripi api helpers', () => {
   const setUpStrapi = (method) => {
@@ -7,7 +7,7 @@ describe('# Stripi api helpers', () => {
       models: {
         uid: {
           attributes: {
-            slug: { index: true, unique: true },
+            slug: {index: true, unique: true},
           },
         },
       },
@@ -16,7 +16,7 @@ describe('# Stripi api helpers', () => {
 
   it('should find all content by type', async () => {
     const find = jest.fn();
-    setUpStrapi({ find });
+    setUpStrapi({find});
     await findAll('uid');
     expect(find).toHaveBeenCalled();
   });
@@ -24,11 +24,11 @@ describe('# Stripi api helpers', () => {
   it('should update existing one for single type content', async () => {
     const update = jest.fn();
     const methods = {
-      find: () => [{ id: 1 }],
+      find: () => [{id: 1}],
       update,
     };
     setUpStrapi(methods);
-    await importSingleType('uid', { value: 2 });
+    await importSingleType('uid', {value: 2});
     expect(update).toHaveBeenCalled();
   });
 
@@ -41,7 +41,7 @@ describe('# Stripi api helpers', () => {
       create,
     };
     setUpStrapi(methods);
-    await importSingleType('uid', { value: 2 });
+    await importSingleType('uid', {value: 2});
     expect(update).not.toHaveBeenCalled();
     expect(create).toHaveBeenCalled();
   });
@@ -59,7 +59,7 @@ describe('# Stripi api helpers', () => {
       create,
     };
     setUpStrapi(methods);
-    await importItemByContentType('uid', { slug: '123', value: 2 });
+    await importItemByContentType('uid', {slug: '123', value: 2});
     expect(update).toHaveBeenCalled();
     expect(create).not.toHaveBeenCalled();
   });
@@ -68,12 +68,12 @@ describe('# Stripi api helpers', () => {
     const update = jest.fn();
     const create = jest.fn();
     const methods = {
-      model: { findOne: () => null },
+      model: {findOne: () => null},
       update,
       create,
     };
     setUpStrapi(methods);
-    await importItemByContentType('uid', { slug: '123', value: 2 });
+    await importItemByContentType('uid', {slug: '123', value: 2});
     expect(update).not.toHaveBeenCalled();
     expect(create).toHaveBeenCalled();
   });
