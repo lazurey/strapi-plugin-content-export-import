@@ -6,6 +6,7 @@ import {FieldRow, FileField, FormAction} from "./ui-components";
 import {readLocalFile} from "../../utils/file";
 import JsonDataDisplay from "../../components/JsonDataDisplay";
 import {importData} from "../../utils/api";
+import { csvParser } from '../../utils/csvParser';
 
 const ImportForm = ({models}) => {
   const options = map(models, convertModelToOption);
@@ -37,7 +38,11 @@ const ImportForm = ({models}) => {
       return;
     }
     setLoading(true);
-    readLocalFile(sourceFile, JSON.parse).then(setSource)
+
+    const filenameSplit = sourceFile.name.split('.');
+    const ext = filenameSplit[filenameSplit.length - 1];
+
+    readLocalFile(sourceFile, ext === 'csv' ? csvParser : JSON.parse).then(setSource)
     .catch((error) => {
       strapi.notification.error(
         "Something wrong when uploading the file, please check the file and try again.");
@@ -77,7 +82,7 @@ const ImportForm = ({models}) => {
       <FileField>
         <input id="source"
                name="source"
-               accept={".json"}
+               accept={".csv,.json"}
                type="file"
                onChange={onSourceFileChange}
         />
