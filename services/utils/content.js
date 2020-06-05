@@ -1,9 +1,12 @@
 const importItemByContentType = async (id, item) => {
+  // Get the model definition - Maybe there's a more elegant way?
   const modelName = id.split('.').reverse()[0];
-  const model = strapi.models[modelName];
-  const uniqueIndexes = Object.keys(model.attributes).filter(
-    (aName) => model.attributes[aName].index && model.attributes[aName].unique
+  const { attributes } = strapi.models[modelName];
+  // Get which fields are unique indexes
+  const uniqueIndexes = Object.keys(attributes).filter(
+    (aName) => attributes[aName].index && attributes[aName].unique
   );
+  // Unique fields present in the inserted item will be used to search for existing items
   const search = [];
   uniqueIndexes.forEach((i) => {
     if (item[i]) {
