@@ -15,7 +15,7 @@ cd plugins
 # clone the plugin code into a folder and skip the prefix
 git clone git@github.com:lazurey/strapi-plugin-content-export-import.git content-export-import
 # install dependencies
-cd conetnt-export-import && yarn install
+cd content-export-import && yarn install
 # build the plugin
 cd ../..
 yarn build
@@ -30,11 +30,15 @@ yarn develop --watch-admin
 ```
 Running at http://localhost:8000/
 
-## Todo
+## Features
 
-- [x] How to install in an existing Strapi
-- [x] Permission issues in normal mode
-- [x] Update or clean & insert
+- Support JSON export & import
+- Delete all content of a type
+
+**Not supported**
+
+- Media fields, e.g. image, video, etc.
+- Any other file type, e.g. csv, etc.
 
 ## References
 

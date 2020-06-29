@@ -41,6 +41,15 @@ describe('# Strapi content api helpers', () => {
     expect(request).toBeCalledTimes(1);
     expect(request).toHaveBeenCalledWith('/content-types', { method: 'GET'});
   });
+
+  it('should handle irregular plural collection name', async () => {
+    const request = jest.fn();
+    strapiHelper.request.mockImplementation(request);
+    await fetchEntries('company', 'collectionType');
+    expect(request).toBeCalledTimes(1);
+    expect(request).toHaveBeenCalledWith('/companies', { method: 'GET'});
+  });
+
   it('should call single api if content type is a single', async () => {
     const request = jest.fn();
     strapiHelper.request.mockImplementation(request);
