@@ -13,7 +13,7 @@
   "dependencies": {
     "file-saver": "^2.0.2",
     "pluralize": "^8.0.0",
-    "strapi-helper-plugin": "^3.0.0-beta.20"
+    "strapi-helper-plugin": "^3.x"
   },
   "author": {
     "name": "lazurey",
