@@ -25,6 +25,7 @@ export default (strapi) => {
     isReady: false,
     isRequired: pluginPkg.strapi.required || false,
     layout: null,
+    lifecycles,
     leftMenuLinks: [],
     leftMenuSections: [],
     mainComponent: App,
