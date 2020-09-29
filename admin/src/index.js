@@ -7,8 +7,12 @@ import trads from './translations';
 
 export default strapi => {
   const pluginDescription = pluginPkg.strapi.description || pluginPkg.description;
+  const icon = pluginPkg.strapi.icon;
+  const name = pluginPkg.strapi.name;
 
   const plugin = {
+    icon,
+    name,
     blockerComponent: null,
     blockerComponentProps: {},
     description: pluginDescription,
@@ -26,6 +30,19 @@ export default strapi => {
     name: pluginPkg.strapi.name,
     preventComponentRendering: false,
     trads,
+    menu: {
+      pluginsSectionLinks: [
+        {
+          icon,
+          name,
+          destination: `/plugins/${pluginId}`,
+          label: {
+            id: `${pluginId}.plugin.name`,
+            defaultMessage: name,
+          },
+        },
+      ]
+    }
   };
 
   return strapi.registerPlugin(plugin);
