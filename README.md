@@ -24,6 +24,9 @@ yarn build
 yarn develop
 ```
 
+Note:
+> it's important to clone the repo into a target folder named `content-export-import`, the prefix has to be omitted.
+
 ## Plugin development
 ```bash
 yarn develop --watch-admin
