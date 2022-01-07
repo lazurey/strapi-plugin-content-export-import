@@ -4,14 +4,13 @@
  *
  */
 
-import React, {memo, useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
-import pluginId from '../../pluginId';
-import Nav from '../../components/Nav';
-import {getModels} from '../../utils/contentApis';
+import React, { memo, useEffect, useState } from 'react';
+import { BaseHeaderLayout } from '@strapi/design-system/Layout';
+import { Stack } from '@strapi/design-system/Stack';
+import { Box } from '@strapi/design-system/Box';
+import { Typography } from '@strapi/design-system/Typography';
+import { getModels } from '../../utils/contentApis';
 import ExportModel from "./ExportModel";
-
-import {MainDiv} from './ui-components';
 
 const ExportPage = () => {
   const [models, setModels] = useState([]);
@@ -24,19 +23,16 @@ const ExportPage = () => {
   }, []);
 
   return (
-    <div className="container-fluid" style={{padding: "18px 30px"}}>
-      <h1>Export Content</h1>
-      <Nav/>
-      <div>
-        <h2>Content Types</h2>
-        <ul>
-          <li>
-            {
-              models.map((model) => (<ExportModel key={model.uid} model={model}/>))
-            }
-          </li>
-        </ul>
-      </div>
+    <div>
+      <BaseHeaderLayout title="Export Content" subtitle="Export content into JSON format" as="h2" />
+      <Stack size={4} padding={2}>
+        <Box>
+          <Typography variant="beta">Content Types</Typography>
+        </Box>
+        {
+          models.map((model) => (<ExportModel key={model.uid} model={model}/>))
+        }
+      </Stack>
     </div>
   );
 };

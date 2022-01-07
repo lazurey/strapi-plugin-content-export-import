@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
-import {Button} from "@strapi/design-system/Button";
+import { Button } from "@strapi/design-system/Button";
+import { Box } from '@strapi/design-system/Box';
+import { Typography } from '@strapi/design-system/Typography';
+import { Flex } from '@strapi/design-system/Flex';
+import { Grid, GridItem } from '@strapi/design-system/Grid';
 import {saveAs} from "file-saver";
 import {fetchEntries} from "../../utils/contentApis";
-import {HFlex, ModelItem} from "./ui-components";
 import JsonDataDisplay from "../../components/JsonDataDisplay";
 
 const ExportModel = ({model}) => {
@@ -24,24 +27,28 @@ const ExportModel = ({model}) => {
       {type: "application/json;charset=utf-8"});
     saveAs(file);
   };
-  return (<ModelItem>
-    <HFlex>
-      <span className='title'>{model.schema.displayName}</span>
-      <div>
-        <Button disabled={fetching}
-                loading={fetching}
-                onClick={fetchModelData}
-                secondaryHotline>{fetching ? "Fetching" : "Fetch"}</Button>
-        <Button disabled={!content}
-                onClick={downloadJson}
-                variant={content ? 'secondaryHotline' : 'secondary'}
-        >Download</Button>
-      </div>
-    </HFlex>
+  return (<Box padding={4} margin={4} shadow hasRadius background="neutral0">
+    <Grid gap={4}>
+      <GridItem col={9}>
+        <Typography variant="epsilon">{model.schema.displayName}</Typography>
+      </GridItem>
+      <GridItem col={3}>
+        <Flex justifyContent="space-between">
+          <Button disabled={fetching}
+                  loading={fetching}
+                  onClick={fetchModelData}
+                  secondaryHotline>{fetching ? "Fetching" : "Fetch"}</Button>
+          <Button disabled={!content}
+                  onClick={downloadJson}
+                  variant={content ? 'secondaryHotline' : 'secondary'}
+          >Download</Button>
+        </Flex>
+      </GridItem>
+    </Grid>
     {
       content && (<JsonDataDisplay data={content}/>)
     }
-  </ModelItem>)
+  </Box>)
 };
 
 export default ExportModel;

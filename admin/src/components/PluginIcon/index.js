@@ -5,8 +5,8 @@
  */
 
 import React from 'react';
-import Puzzle from '@strapi/icons/Puzzle';
+import Download from '@strapi/icons/Download';
 
-const PluginIcon = () => <Puzzle />;
+const PluginIcon = () => <Download />;
 
 export default PluginIcon;

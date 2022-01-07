@@ -14,8 +14,3 @@ export const HFlex = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-
-export const ModelItem = styled.div`
-  padding: 2.4rem 1.2rem;
-  border-bottom: 1px solid #efefef;
-`;
