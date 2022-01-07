@@ -2,9 +2,14 @@
 
 ![](https://github.com/lazurey/strapi-plugin-content-export-import/workflows/Run-Tests/badge.svg)
 
+Working on Strapi version: v4.0.3
+
 ## First Setup
+
+1. Clone the plugin into your Strapi project
+
 ```bash
-cd /<path-to-your-strapi-project
+cd /<path-to-your-strapi-project>/src
 
 # create plugins folder if not exists
 # mkdir plugins
@@ -16,10 +21,26 @@ cd plugins
 git clone git@github.com:lazurey/strapi-plugin-content-export-import.git content-export-import
 # install dependencies
 cd content-export-import && yarn install
-# build the plugin
-cd ../..
-yarn build
+```
 
+2. Enable the plugin in `<root>/config/plugins.js` .
+
+```javascript
+module.exports = {
+  // ...
+  'content-export-import': {
+    enabled: true,
+    resolve: './src/plugins/content-export-import' // path to plugin folder
+  },
+  // ...
+}
+```
+
+3. Build the plugin
+
+```bash
+# back to project root and build the plugin
+yarn build
 # start
 yarn develop
 ```

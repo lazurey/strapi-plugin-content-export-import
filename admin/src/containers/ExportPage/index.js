@@ -5,13 +5,10 @@
  */
 
 import React, {memo, useEffect, useState} from 'react';
-// import PropTypes from 'prop-types';
-import {map} from 'lodash';
-import {List, PluginHeader, ListWrapper} from "strapi-helper-plugin";
-
+import PropTypes from 'prop-types';
 import pluginId from '../../pluginId';
 import Nav from '../../components/Nav';
-import {getModels,} from '../../utils/contentApis';
+import {getModels} from '../../utils/contentApis';
 import ExportModel from "./ExportModel";
 
 import {MainDiv} from './ui-components';
@@ -22,30 +19,24 @@ const ExportPage = () => {
     async function loadContentTypes() {
       const models = await getModels();
       setModels(models);
-      console.log(models);
     }
-
     loadContentTypes();
   }, []);
 
   return (
     <div className="container-fluid" style={{padding: "18px 30px"}}>
-      <PluginHeader
-        title="Export Content"
-        description={pluginId + " / Export content to file"}
-      />
+      <h1>Export Content</h1>
       <Nav/>
-      <MainDiv>
+      <div>
         <h2>Content Types</h2>
-        <ListWrapper>
-          <List>
+        <ul>
+          <li>
             {
-              map(models,
-                (model) => (<ExportModel key={model.uid} model={model}/>))
+              models.map((model) => (<ExportModel key={model.uid} model={model}/>))
             }
-          </List>
-        </ListWrapper>
-      </MainDiv>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

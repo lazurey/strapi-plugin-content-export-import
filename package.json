@@ -1,19 +1,20 @@
 {
-  "name": "strapi-plugin-content-export-import",
-  "version": "0.0.2",
+  "name": "content-export-import",
+  "version": "0.0.3",
   "description": "This is a plugin for content import and export.",
   "strapi": {
-    "name": "Content Export & Import",
+    "displayName": "Content Export & Import",
+    "name": "content-export-import",
     "icon": "plug",
-    "description": "Description of content-export-import plugin."
+    "description": "Export and Import content",
+    "kind": "plugin"
   },
   "scripts": {
     "test": "jest"
   },
   "dependencies": {
-    "file-saver": "^2.0.2",
-    "pluralize": "^8.0.0",
-    "strapi-helper-plugin": "^3.0.0-beta.20"
+    "file-saver": "^2.0.5",
+    "pluralize": "^8.0.0"
   },
   "author": {
     "name": "lazurey",

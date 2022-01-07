@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button} from "strapi-helper-plugin";
+import {Button} from "@strapi/design-system/Button";
 import {saveAs} from "file-saver";
 import {fetchEntries} from "../../utils/contentApis";
 import {HFlex, ModelItem} from "./ui-components";
@@ -10,7 +10,7 @@ const ExportModel = ({model}) => {
   const [content, setContent] = useState(null);
   const fetchModelData = () => {
     setFetching(true);
-    fetchEntries(model.apiID, model.schema.kind).then((data) => {
+    return fetchEntries(model.apiID, model.schema.kind).then((data) => {
       setContent(data);
     }).finally(() => {
       setFetching(false);
@@ -26,15 +26,15 @@ const ExportModel = ({model}) => {
   };
   return (<ModelItem>
     <HFlex>
-      <span className='title'>{model.schema.name}</span>
+      <span className='title'>{model.schema.displayName}</span>
       <div>
         <Button disabled={fetching}
-                loader={fetching}
+                loading={fetching}
                 onClick={fetchModelData}
                 secondaryHotline>{fetching ? "Fetching" : "Fetch"}</Button>
         <Button disabled={!content}
                 onClick={downloadJson}
-                kind={content ? 'secondaryHotline' : 'secondary'}
+                variant={content ? 'secondaryHotline' : 'secondary'}
         >Download</Button>
       </div>
     </HFlex>

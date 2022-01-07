@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Button, InputSelect} from "strapi-helper-plugin";
+import {Button, InputSelect} from "@strapi/helper-plugin";
 import {convertModelToOption} from "../../utils/convertOptions";
 import {find, get, map} from 'lodash';
 import {FieldRow, FileField, FormAction} from "./ui-components";

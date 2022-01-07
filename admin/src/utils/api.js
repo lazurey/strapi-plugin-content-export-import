@@ -1,4 +1,4 @@
-import {request} from "strapi-helper-plugin";
+import {request} from "@strapi/helper-plugin";
 import pluginId from '../pluginId';
 
 export const importData = (body) => {

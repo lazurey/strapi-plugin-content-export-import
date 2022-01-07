@@ -1,6 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-// import PropTypes from 'prop-types';
-import {Button, InputSelect, PluginHeader,} from "strapi-helper-plugin";
+import {Button, InputSelect, PluginHeader,} from "@strapi/helper-plugin";
 
 import pluginId from '../../pluginId';
 import Nav from "../../components/Nav";

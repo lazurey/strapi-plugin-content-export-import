@@ -1,49 +1,60 @@
+import { prefixPluginTranslations } from '@strapi/helper-plugin';
 import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
-import App from './containers/App';
-import Initializer from './containers/Initializer';
-import lifecycles from './lifecycles';
-import trads from './translations';
+import Initializer from './components/Initializer';
+import PluginIcon from './components/PluginIcon';
 
-export default strapi => {
-  const pluginDescription = pluginPkg.strapi.description || pluginPkg.description;
-  const icon = pluginPkg.strapi.icon;
-  const name = pluginPkg.strapi.name;
+const name = pluginPkg.strapi.name;
 
-  const plugin = {
-    icon,
-    name,
-    blockerComponent: null,
-    blockerComponentProps: {},
-    description: pluginDescription,
-    icon: pluginPkg.strapi.icon,
-    id: pluginId,
-    initializer: Initializer,
-    injectedComponents: [],
-    isReady: false,
-    isRequired: pluginPkg.strapi.required || false,
-    layout: null,
-    lifecycles,
-    leftMenuLinks: [],
-    leftMenuSections: [],
-    mainComponent: App,
-    name: pluginPkg.strapi.name,
-    preventComponentRendering: false,
-    trads,
-    menu: {
-      pluginsSectionLinks: [
-        {
-          icon,
-          name,
-          destination: `/plugins/${pluginId}`,
-          label: {
-            id: `${pluginId}.plugin.name`,
-            defaultMessage: name,
-          },
-        },
-      ]
-    }
-  };
+export default {
+  register(app) {
+    app.addMenuLink({
+      to: `/plugins/${pluginId}`,
+      icon: PluginIcon,
+      intlLabel: {
+        id: `${pluginId}.plugin.name`,
+        defaultMessage: "Content Export & Import",
+      },
+      Component: async () => {
+        const component = await import(/* webpackChunkName: "content-export-import" */ './containers/App');
+        return component;
+      },
+      permissions: [
+        // Uncomment to set the permissions of the plugin here
+        // {
+        //   action: '', // the action name should be plugin::plugin-name.actionType
+        //   subject: null,
+        // },
+      ],
+    });
+    app.registerPlugin({
+      id: pluginId,
+      initializer: Initializer,
+      isReady: false,
+      name,
+    });
+  },
 
-  return strapi.registerPlugin(plugin);
-};
+  bootstrap(app) {},
+  async registerTrads({ locales }) {
+    const importedTrads = await Promise.all(
+      locales.map(locale => {
+        return import(`./translations/${locale}.json`)
+          .then(({ default: data }) => {
+            return {
+              data: prefixPluginTranslations(data, pluginId),
+              locale,
+            };
+          })
+          .catch(() => {
+            return {
+              data: {},
+              locale,
+            };
+          });
+      })
+    );
+
+    return Promise.resolve(importedTrads);
+  },
+}
