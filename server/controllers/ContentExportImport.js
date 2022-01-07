@@ -6,26 +6,28 @@ const validator = require('./validations');
 
 module.exports = {
   importContent: async (ctx) => {
-    const importService = strapi.plugins[PLUGIN_ID].services['contentexportimport'];
     const validationResult = validator.validateImportContentRequest(
       ctx.request.body);
     if (validationResult) {
       ctx.throw(400, validationResult);
       return;
     }
-    await importService.importData(ctx);
+    await strapi
+      .plugin(PLUGIN_ID)
+      .service('contentExportImportService').importData(ctx);
     ctx.send({
       message: 'ok',
     });
   },
   deleteAllContent: async (ctx) => {
-    const importService = strapi.plugins[PLUGIN_ID].services['contentexportimport'];
     const validationResult = validator.validateDeleteRequest(ctx.request.body);
     if (validationResult) {
       ctx.throw(400, validationResult);
       return;
     }
-    const count = await importService.deleteAllData(
+    const count = await strapi
+      .plugin(PLUGIN_ID)
+      .service('contentExportImportService').deleteAllData(
       ctx.request.body.targetModelUid, ctx);
     ctx.send({
       message: 'ok',

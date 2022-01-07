@@ -1,25 +1,37 @@
-const importItemByContentType = (id, item) => {
-  return strapi.query(id).create(item);
+const importItemByContentType = (uid, item) => {
+  return strapi.db.query(uid).create({
+    data: item.attributes,
+  });
 };
 
 const importSingleType = async (uid, item) => {
-  const existing = await strapi.query(uid).find({});
+  const data = item.data.attributes;
+  const existing = await strapi.db.query(uid).findOne({});
   if (existing.length > 0) {
-    return strapi.query(uid).update({
-      id: existing[0].id,
-    }, item)
+    return strapi.db.query(uid).update({
+      where: {
+        id: existing[0].id,
+      },
+      data,
+    })
   } else {
-    return strapi.query(uid).create(item);
+    return strapi.db.query(uid).create({
+      data,
+    });
   }
 };
 
 const findAll = (uid) => {
-  return strapi.query(uid).find({});
+  return strapi.entityService.findMany(uid, {});
 };
 
 const deleteByIds = (uid, ids) => {
-  return strapi.query(uid).delete({
-    id_in: ids
+  return strapi.db.query(uid).deleteMany({
+    where: {
+      id: {
+        $in: ids,
+      }
+    }
   });
 };
 
