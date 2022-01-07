@@ -1,4 +1,4 @@
 export const convertModelToOption = (model) => ({
-  label: model.schema.name,
+  label: model.schema.displayName,
   value: model.uid,
 });

@@ -1,11 +1,8 @@
-import React, {memo, useState, useEffect} from 'react';
-import {PluginHeader,} from "@strapi/helper-plugin";
-
+import React, { memo, useState, useEffect } from 'react';
+import { BaseHeaderLayout } from '@strapi/design-system/Layout';
 import pluginId from '../../pluginId';
-import Nav from "../../components/Nav";
-import {MainDiv} from "../ExportPage/ui-components";
 import ImportForm from "./ImportForm";
-import {getModels} from "../../utils/contentApis";
+import { getModels } from "../../utils/contentApis";
 
 const ImportPage = () => {
   const [models, setModels] = useState([]);
@@ -18,16 +15,9 @@ const ImportPage = () => {
     loadContentTypes();
   }, []);
   return (
-    <div className="container-fluid" style={{padding: "18px 30px"}}>
-      <PluginHeader
-        title="Import Content"
-        description={pluginId + " / Import data from file"}
-      />
-      <Nav/>
-      <MainDiv>
-        <h2>Import content</h2>
-        <ImportForm models={models}/>
-      </MainDiv>
+    <div>
+      <BaseHeaderLayout title="Import Content" subtitle="Import data from file" as="h2" />
+      <ImportForm models={models}/>
     </div>
   );
 };

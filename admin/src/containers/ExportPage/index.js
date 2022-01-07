@@ -26,7 +26,7 @@ const ExportPage = () => {
     <div>
       <BaseHeaderLayout title="Export Content" subtitle="Export content into JSON format" as="h2" />
       <Stack size={4} padding={2}>
-        <Box>
+        <Box key="title">
           <Typography variant="beta">Content Types</Typography>
         </Box>
         {

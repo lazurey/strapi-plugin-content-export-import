@@ -27,7 +27,7 @@ const ExportModel = ({model}) => {
       {type: "application/json;charset=utf-8"});
     saveAs(file);
   };
-  return (<Box padding={4} margin={4} shadow hasRadius background="neutral0">
+  return (<Box padding={4} margin={4} shadow="filterShadow" hasRadius background="neutral0">
     <Grid gap={4}>
       <GridItem col={9}>
         <Typography variant="epsilon">{model.schema.displayName}</Typography>

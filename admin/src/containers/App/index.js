@@ -23,10 +23,10 @@ const App = () => {
   return (
     <div>
       <Grid>
-        <GridItem col={2} padding={1}>
+        <GridItem col={3} padding={1}>
           <Nav/>
         </GridItem>
-        <GridItem col={10} padding={1}>
+        <GridItem col={9} padding={1}>
           <Switch>
             <Route path={`/plugins/${pluginId}/export`} component={ExportPage}
                    exact/>

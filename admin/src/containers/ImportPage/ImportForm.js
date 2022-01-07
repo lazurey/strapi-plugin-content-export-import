@@ -1,11 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {Button, InputSelect} from "@strapi/helper-plugin";
-import {convertModelToOption} from "../../utils/convertOptions";
-import {find, get, map} from 'lodash';
-import {FieldRow, FileField, FormAction} from "./ui-components";
-import {readLocalFile} from "../../utils/file";
+import { Select, Option } from '@strapi/design-system/Select';
+import { Stack } from '@strapi/design-system/Stack';
+import { Box } from '@strapi/design-system/Box';
+import { Button } from "@strapi/design-system/Button";
+import { Typography } from '@strapi/design-system/Typography';
+import { convertModelToOption } from "../../utils/convertOptions";
+import { find, get, map } from 'lodash';
+import { FieldRow, FileField, FormAction } from "./ui-components";
+import { readLocalFile } from "../../utils/file";
 import JsonDataDisplay from "../../components/JsonDataDisplay";
-import {importData} from "../../utils/api";
+import { importData } from "../../utils/api";
 
 const ImportForm = ({models}) => {
   const options = map(models, convertModelToOption);
@@ -20,8 +24,8 @@ const ImportForm = ({models}) => {
     }
   }, [models]);
 
-  const onTargetModelChange = (event) => {
-    setTargetModel(event.target.value);
+  const onTargetModelChange = (value) => {
+    setTargetModel(value);
   };
 
   const onSourceFileChange = (event) => {
@@ -71,9 +75,9 @@ const ImportForm = ({models}) => {
       setLoading(false);
     });
   };
-  return (<div>
-    <FieldRow>
-      <label htmlFor="source">Content Source File</label>
+  return (<Stack size={4} padding={4}>
+    <Box padding={4} margin={4} shadow="filterShadow" hasRadius background="neutral0">
+      <Typography variant="beta">Step 1: Upload source file</Typography>
       <FileField>
         <input id="source"
                name="source"
@@ -82,30 +86,33 @@ const ImportForm = ({models}) => {
                onChange={onSourceFileChange}
         />
       </FileField>
-    </FieldRow>
-    {source
-      ? (<JsonDataDisplay data={source}/>)
-      : (<FormAction>
-        <Button disabled={loading}
-                onClick={upload}
-                secondaryHotline>{loading ? "Please Wait..."
-          : "Upload"}</Button>
-      </FormAction>)
-    }
-    <FieldRow>
-      <label htmlFor="target-content-type">Target Content Type</label>
-      <InputSelect name="targetContentType"
+      {source
+        ? (<JsonDataDisplay data={source}/>)
+        : (<FormAction>
+          <Button disabled={loading}
+                  onClick={upload}
+                  secondaryHotline>{loading ? "Please Wait..."
+            : "Upload"}</Button>
+        </FormAction>)
+      }
+    </Box>
+    <Box padding={4} margin={4} shadow="filterShadow" hasRadius background="neutral0">
+      <Typography variant="beta">Step 2: Choose target content type</Typography>
+      <Select name="targetContentType"
                    id="target-content-type"
-                   selectOptions={options}
                    value={targetModelUid}
-                   onChange={onTargetModelChange}/>
-    </FieldRow>
-    <FormAction>
-      <Button disabled={loading}
-              onClick={submit}
-              primary>{loading ? "Please Wait..." : "Import"}</Button>
-    </FormAction>
-  </div>)
+                   onChange={onTargetModelChange}>
+        {
+          options.map((option) => <Option value={option.value} key={option.value}>{option.label}</Option>)
+        }
+      </Select>
+      <FormAction>
+        <Button disabled={loading}
+                onClick={submit}
+                primary>{loading ? "Please Wait..." : "Import"}</Button>
+      </FormAction>
+    </Box>
+  </Stack>)
 };
 
 export default ImportForm;
