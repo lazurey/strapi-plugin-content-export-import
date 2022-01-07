@@ -1,11 +1,14 @@
 import React, {memo, useEffect, useState} from 'react';
-import {Button, InputSelect, PluginHeader,} from "@strapi/helper-plugin";
-
+import { Select, Option } from '@strapi/design-system/Select';
+import { Button } from "@strapi/design-system/Button";
+import { Box } from "@strapi/design-system/Box";
+import { BaseHeaderLayout } from '@strapi/design-system/Layout';
+import { Typography } from '@strapi/design-system/Typography';
 import pluginId from '../../pluginId';
 import Nav from "../../components/Nav";
 import {MainDiv} from "../ExportPage/ui-components";
 import {getModels} from "../../utils/contentApis";
-import {FieldRow, FormAction} from "../ImportPage/ui-components";
+import { FormAction } from "../ImportPage/ui-components";
 import {convertModelToOption} from "../../utils/convertOptions";
 import { map } from 'lodash';
 import {deleteAll} from "../../utils/api";
@@ -26,8 +29,8 @@ const UtilPage = () => {
     loadContentTypes();
   }, []);
 
-  const onTargetModelChange = (event) => {
-    setTargetModel(event.target.value);
+  const onTargetModelChange = (value) => {
+    setTargetModel(value);
   };
 
   const submit = () => {
@@ -42,30 +45,25 @@ const UtilPage = () => {
     })
   };
   return (
-    <div className="container-fluid" style={{padding: "18px 30px"}}>
-      <PluginHeader
-        title="Utilities"
-        description={pluginId + " / Easy and dangerous"}
-      />
-      <Nav/>
-      <MainDiv>
-        <h2>Utilities</h2>
-        <div>
-          <FieldRow>
-            <label htmlFor="target-content-type">Target Content Type</label>
-            <InputSelect name="targetContentType"
-                         id="target-content-type"
-                         selectOptions={options}
-                         value={targetModelUid}
-                         onChange={onTargetModelChange}/>
-          </FieldRow>
-          <FormAction>
-            <Button disabled={loading}
-                    onClick={submit}
-                    primary>{loading ? "Please Wait..." : "Delete All Content"}</Button>
-          </FormAction>
-        </div>
-      </MainDiv>
+    <div>
+      <BaseHeaderLayout title="Utilities" subtitle="Additional features" as="h2" />
+      <Typography variant="beta">Delete all content of a type</Typography>
+      <Box paddingTop={4}>
+        <Typography variant="epsilon" lineHeight={6}>Target Content Type</Typography>
+        <Select name="targetContentType"
+                     id="target-content-type"
+                     value={targetModelUid}
+                     onChange={onTargetModelChange}>
+          {
+            options.map(option => <Option key={option.value} value={option.value}>{option.label}</Option>)
+          }
+        </Select>
+      </Box>
+      <FormAction>
+        <Button disabled={loading}
+                onClick={submit}
+                primary>{loading ? "Please Wait..." : "Delete All Content"}</Button>
+      </FormAction>
     </div>
   );
 };
