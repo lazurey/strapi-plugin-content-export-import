@@ -5,7 +5,7 @@ describe('# Select option helpers', () => {
     expect(convertModelToOption({
       uid: 'content-type',
       schema: {
-        name: 'Content Type'
+        displayName: 'Content Type'
       }
     })).toEqual({
       value: 'content-type',
