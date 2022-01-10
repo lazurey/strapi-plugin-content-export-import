@@ -3,10 +3,11 @@ import { Select, Option } from '@strapi/design-system/Select';
 import { Stack } from '@strapi/design-system/Stack';
 import { Box } from '@strapi/design-system/Box';
 import { Button } from "@strapi/design-system/Button";
+import { Status } from '@strapi/design-system/Status';
 import { Typography } from '@strapi/design-system/Typography';
 import { convertModelToOption } from "../../utils/convertOptions";
 import { find, get, map } from 'lodash';
-import { FieldRow, FileField, FormAction } from "./ui-components";
+import { FileField, FormAction } from "./ui-components";
 import { readLocalFile } from "../../utils/file";
 import JsonDataDisplay from "../../components/JsonDataDisplay";
 import { importData } from "../../utils/api";
@@ -17,6 +18,8 @@ const ImportForm = ({models}) => {
   const [targetModelUid, setTargetModel] = useState(undefined);
   const [sourceFile, setSourceFile] = useState(null);
   const [source, setSource] = useState(null);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   useEffect(() => {
     if (!targetModelUid && models && models.length > 0) {
@@ -36,16 +39,16 @@ const ImportForm = ({models}) => {
   };
 
   const upload = () => {
+    setError(null);
     if (!sourceFile) {
-      strapi.notification.error("Please choose a source file first.");
+      setError("Please choose a source file first.");
       return;
     }
     setLoading(true);
     readLocalFile(sourceFile, JSON.parse).then(setSource)
     .catch((error) => {
-      strapi.notification.error(
-        "Something wrong when uploading the file, please check the file and try again.");
-      console.error(error)
+      setError("Something wrong when uploading the file, please check the file and try again.");
+      console.error(error);
     }).finally(() => {
       setLoading(false);
     })
@@ -53,11 +56,11 @@ const ImportForm = ({models}) => {
 
   const submit = () => {
     if (!targetModelUid) {
-      strapi.notification.error("Please select a target content type!");
+      setError("Please select a target content type!");
       return;
     }
     if (!source) {
-      strapi.notification.error("Please choose a source file first.");
+      setError("Please choose a source file first.")
       return;
     }
     const model = find(models, (model) => model.uid === targetModelUid);
@@ -67,16 +70,28 @@ const ImportForm = ({models}) => {
       source,
       kind: get(model, 'schema.kind'),
     }).then(() => {
-      strapi.notification.success("Import succeeded!");
+      setError(null);
+      setSuccess("Import succeeded!");
     }).catch((error) => {
       console.log(error);
-      strapi.notification.error("Failed: " + error.message);
+      setSuccess(null);
+      setError("Import content failed: " + error.message);
     }).finally(() => {
       setLoading(false);
     });
   };
   return (<Stack size={4} padding={4}>
-    <Box padding={4} margin={4} shadow="filterShadow" hasRadius background="neutral0">
+    <Box padding={4} shadow="filterShadow" hasRadius background="neutral0">
+      { error && <Box padding={4}><Status variant="danger">
+        <Typography>
+          {error}
+        </Typography>
+      </Status></Box>}
+      { success && <Box padding={4}><Status variant="success">
+        <Typography>
+          {success}
+        </Typography>
+      </Status></Box>}
       <Typography variant="beta">Step 1: Upload source file</Typography>
       <FileField>
         <input id="source"
@@ -90,9 +105,8 @@ const ImportForm = ({models}) => {
         ? (<JsonDataDisplay data={source}/>)
         : (<FormAction>
           <Button disabled={loading}
-                  onClick={upload}
-                  secondaryHotline>{loading ? "Please Wait..."
-            : "Upload"}</Button>
+                  variant="secondary"
+                  onClick={upload}>{loading ? "Please Wait..." : "Upload"}</Button>
         </FormAction>)
       }
     </Box>
@@ -109,7 +123,8 @@ const ImportForm = ({models}) => {
       <FormAction>
         <Button disabled={loading}
                 onClick={submit}
-                primary>{loading ? "Please Wait..." : "Import"}</Button>
+                variant='default'
+                >{loading ? "Please Wait..." : "Import"}</Button>
       </FormAction>
     </Box>
   </Stack>)

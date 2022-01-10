@@ -1,16 +1,15 @@
-const importItemByContentType = (uid, item) => {
+const importItemByContentType = (uid, data) => {
   return strapi.db.query(uid).create({
-    data: item.attributes,
+    data,
   });
 };
 
-const importSingleType = async (uid, item) => {
-  const data = item.data.attributes;
+const importSingleType = async (uid, { data }) => {
   const existing = await strapi.db.query(uid).findOne({});
-  if (existing.length > 0) {
+  if (existing) {
     return strapi.db.query(uid).update({
       where: {
-        id: existing[0].id,
+        id: existing.id,
       },
       data,
     })

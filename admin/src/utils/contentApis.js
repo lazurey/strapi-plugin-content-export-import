@@ -1,7 +1,6 @@
 import { request } from "@strapi/helper-plugin";
 import { filter } from 'lodash';
-import pluralize from 'pluralize';
-import {MODEL_KIND} from "../constants/model-kind";
+import pluginId from "../pluginId";
 
 export const getModels = () => {
   return request("/content-type-builder/content-types", {
@@ -13,9 +12,6 @@ export const getModels = () => {
   });
 };
 
-export const fetchEntries = (apiId, kind) => {
-  const url = (kind === MODEL_KIND.collection) ? `/api/${pluralize(apiId)}` : `/api/${apiId}`;
-  return request(url, { method: 'GET', headers: {
-    Authorization: '',
-  } });
-};
+export const fetchAll = (apiId) => {
+  return request(`/${pluginId}/fetch-content?uid=${apiId}`);
+}

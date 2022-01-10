@@ -15,4 +15,12 @@ module.exports = [
       policies: [],
     },
   },
+  {
+    method: 'GET',
+    path: '/fetch-content',
+    handler: 'contentExportImportController.getContentByType',
+    config: {
+      policies: [],
+    }
+  }
 ];

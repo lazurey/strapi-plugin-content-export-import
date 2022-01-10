@@ -34,5 +34,9 @@ module.exports = {
     } catch (e) {
       ctx.throw(409, e.message);
     }
+  },
+  findAll: async (uid) => {
+    const all = await utils.findAll(uid);
+    return all;
   }
 };

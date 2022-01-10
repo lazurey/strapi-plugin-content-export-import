@@ -33,5 +33,14 @@ module.exports = {
       message: 'ok',
       count,
     });
+  },
+  getContentByType: async (ctx) => {
+    const contentTypeUid = ctx.request.query.uid;
+    const data = await strapi
+      .plugin(PLUGIN_ID)
+      .service('contentExportImportService').findAll(contentTypeUid);
+    ctx.send({
+      data,
+    });
   }
 };
