@@ -82,12 +82,12 @@ const ImportForm = ({models}) => {
   };
   return (<Stack size={4} padding={4}>
     <Box padding={4} shadow="filterShadow" hasRadius background="neutral0">
-      { error && <Box padding={4}><Status variant="danger">
+      { error && <Box paddingBottom={4}><Status variant="danger">
         <Typography>
           {error}
         </Typography>
       </Status></Box>}
-      { success && <Box padding={4}><Status variant="success">
+      { success && <Box paddingBottom={4}><Status variant="success">
         <Typography>
           {success}
         </Typography>

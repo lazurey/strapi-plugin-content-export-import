@@ -25,6 +25,7 @@ const findAll = (uid) => {
 };
 
 const deleteByIds = (uid, ids) => {
+  console.log(ids);
   return strapi.db.query(uid).deleteMany({
     where: {
       id: {

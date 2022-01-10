@@ -1,22 +1,22 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Select, Option } from '@strapi/design-system/Select';
 import { Button } from "@strapi/design-system/Button";
 import { Box } from "@strapi/design-system/Box";
+import { Status } from "@strapi/design-system/Status";
 import { BaseHeaderLayout } from '@strapi/design-system/Layout';
 import { Typography } from '@strapi/design-system/Typography';
-import pluginId from '../../pluginId';
-import Nav from "../../components/Nav";
-import {MainDiv} from "../ExportPage/ui-components";
-import {getModels} from "../../utils/contentApis";
+import { getModels } from "../../utils/contentApis";
 import { FormAction } from "../ImportPage/ui-components";
-import {convertModelToOption} from "../../utils/convertOptions";
+import { convertModelToOption } from "../../utils/convertOptions";
 import { map } from 'lodash';
-import {deleteAll} from "../../utils/api";
+import { deleteAll } from "../../utils/api";
 
 const UtilPage = () => {
   const [models, setModels] = useState([]);
   const [loading, setLoading] = useState(false);
   const [targetModelUid, setTargetModel] = useState();
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const options = map(models, convertModelToOption);
 
@@ -35,18 +35,29 @@ const UtilPage = () => {
 
   const submit = () => {
     setLoading(true);
-    console.log(targetModelUid);
-    deleteAll(targetModelUid).then((response) => {
-      strapi.notification.success(`Successfully deleted ${response.count} records.`);
+    setError(null);
+    setSuccess(null);
+    return deleteAll(targetModelUid).then((response) => {
+      setSuccess(`Successfully deleted ${response.count} records.`);
     }).catch((error) => {
-      strapi.notification.error(error.message);
+      setError(`Delete content failed: ${error.message}`)
     }).finally(() => {
       setLoading(false);
-    })
+    });
   };
   return (
     <div>
       <BaseHeaderLayout title="Utilities" subtitle="Additional features" as="h2" />
+      { error && <Box paddingBottom={4}><Status variant="danger">
+        <Typography>
+          {error}
+        </Typography>
+      </Status></Box>}
+      { success && <Box paddingBottom={4}><Status variant="success">
+        <Typography>
+          {success}
+        </Typography>
+      </Status></Box>}
       <Typography variant="beta">Delete all content of a type</Typography>
       <Box paddingTop={4}>
         <Typography variant="epsilon" lineHeight={6}>Target Content Type</Typography>

@@ -33,9 +33,9 @@ const ExportModel = ({model}) => {
     saveAs(file);
   };
   return (<Box padding={4} margin={4} shadow="filterShadow" hasRadius background="neutral0">
-    { error && <Status variant="success">
+    { error && <Box paddingBottom={4}><Status variant="success">
         <Typography>{error}</Typography>
-      </Status>}
+      </Status></Box>}
     <Grid gap={4}>
       <GridItem col={9}>
         <Typography variant="epsilon">{model.schema.displayName}</Typography>
