@@ -15,7 +15,7 @@ const ExportModel = ({model}) => {
   const [fetching, setFetching] = useState(false);
   const [content, setContent] = useState(null);
   const [error, setError] = useState(null);
-  const [format, setFormat] = useState('json');
+  const [format, setFormat] = useState("json");
   const fetchModelData = () => {
     setFetching(true);
     return fetchAll(model.uid).then((data) => {
@@ -39,7 +39,6 @@ const ExportModel = ({model}) => {
   }
 
   const downloadCsv = (filename) => {
-    console.log(convertToCsv(content.data));
     const file = new File([convertToCsv(content.data)], `${filename}.csv`, {type: "text/csv;charset=utf-8"});
     saveAs(file);
   }
@@ -60,9 +59,9 @@ const ExportModel = ({model}) => {
       </GridItem>
       <GridItem col={2}>
           <Typography id="format-label" variant="pi">Export format</Typography>
-          <RadioGroup labelledBy="format-label" onChange={e => setFormat(e.target.value)} value={format} name="format">
+          <RadioGroup labelledBy="format-label" onChange={e => setFormat(e.target.value)} value={format} name={`${model.uid}-format`}>
             <Radio value="csv">csv</Radio>
-            <Radio value="json">json</Radio>
+            <Radio checked={format==="json"} value="json">json</Radio>
           </RadioGroup>
       </GridItem>
       <GridItem col={3}>
