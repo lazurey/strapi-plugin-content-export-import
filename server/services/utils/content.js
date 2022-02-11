@@ -20,12 +20,26 @@ const importSingleType = async (uid, { data }) => {
   }
 };
 
-const findAll = (uid) => {
-  return strapi.entityService.findMany(uid, {});
+const removeCreatorAndUpdaterInfo = (item) => {
+  delete item.createdBy;
+  delete item.updatedBy;
+}
+
+const findAll = async (uid) => {
+  const result = await strapi.entityService.findMany(uid, {
+    populate: '*',
+  });
+  if (Array.isArray(result)) {
+    result.forEach((value) => {
+      removeCreatorAndUpdaterInfo(value);
+    });
+  } else {
+    removeCreatorAndUpdaterInfo(result);
+  }
+  return result;
 };
 
 const deleteByIds = (uid, ids) => {
-  console.log(ids);
   return strapi.db.query(uid).deleteMany({
     where: {
       id: {

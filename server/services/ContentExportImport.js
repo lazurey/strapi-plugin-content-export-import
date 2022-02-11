@@ -1,7 +1,6 @@
 'use strict';
 
 const utils  = require('./utils/content');
-const _ = require('lodash');
 
 /**
  * ContentExportImport.js service
