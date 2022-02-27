@@ -15,7 +15,7 @@ const ExportModel = ({model}) => {
   const [fetching, setFetching] = useState(false);
   const [content, setContent] = useState(null);
   const [error, setError] = useState(null);
-  const [format, setFormat] = useState("json");
+  const [format, setFormat] = useState("csv");
   const fetchModelData = () => {
     setFetching(true);
     return fetchAll(model.uid).then((data) => {
@@ -54,18 +54,18 @@ const ExportModel = ({model}) => {
         <Typography>{error}</Typography>
       </Status></Box>}
     <Grid gap={4}>
-      <GridItem col={7}>
+      <GridItem col={5}>
         <Typography variant="epsilon">{model.schema.displayName}</Typography>
       </GridItem>
       <GridItem col={2}>
           <Typography id="format-label" variant="pi">Export format</Typography>
           <RadioGroup labelledBy="format-label" onChange={e => setFormat(e.target.value)} value={format} name={`${model.uid}-format`}>
-            <Radio value="csv">csv</Radio>
+            <Radio checked={format==="csv"} value="csv">csv</Radio>
             <Radio checked={format==="json"} value="json">json</Radio>
           </RadioGroup>
       </GridItem>
-      <GridItem col={3}>
-        <Flex justifyContent="space-between">
+      <GridItem col={5}>
+        <Flex justifyContent="end">
           <Button disabled={fetching}
                   loading={fetching}
                   onClick={fetchModelData}

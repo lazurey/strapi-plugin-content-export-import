@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import pluginId from '../../pluginId';
 
 const Initializer = ({ setPlugin }) => {
-  console.log("test")
   const ref = useRef();
   ref.current = setPlugin;
 

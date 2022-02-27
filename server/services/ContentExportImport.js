@@ -24,16 +24,6 @@ module.exports = {
       ctx.throw(409, e.message);
     }
   },
-  deleteAllData: async (targetModelUid, ctx) => {
-    try {
-      const all = await utils.findAll(targetModelUid);
-      const ids = (Array.isArray(all)) ? all.map(item => item.id) : [all.id];
-      await utils.deleteByIds(targetModelUid, ids);
-      return ids.length;
-    } catch (e) {
-      ctx.throw(409, e.message);
-    }
-  },
   findAll: async (uid) => {
     const all = await utils.findAll(uid);
     return all;

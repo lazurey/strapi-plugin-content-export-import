@@ -23,9 +23,6 @@ const Nav = () => {
         <SubNavLink to={getUrl(pluginId, "import")} icon={<Upload />}>
           Import
         </SubNavLink>
-        <SubNavLink to={getUrl(pluginId, "utilities")} icon={<Book />}>
-          Utilities
-        </SubNavLink>
       </SubNavSections>
     </SubNav>)
 };

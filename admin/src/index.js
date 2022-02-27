@@ -15,17 +15,13 @@ export default {
         id: `${pluginId}.plugin.name`,
         defaultMessage: "Content Export & Import",
       },
+      // permissions: [
+      //   { action: 'plugin::content-export-import', subject: null }
+      //   ],
       Component: async () => {
         const component = await import(/* webpackChunkName: "content-export-import" */ './containers/App');
         return component;
       },
-      permissions: [
-        // Uncomment to set the permissions of the plugin here
-        // {
-        //   action: '', // the action name should be plugin::plugin-name.actionType
-        //   subject: null,
-        // },
-      ],
     });
     app.registerPlugin({
       id: pluginId,

@@ -6,7 +6,9 @@ export const getModels = () => {
   return request("/content-type-builder/content-types", {
     method: "GET",
   }).then((response) => {
-    return filter(response.data, (model) => !model.plugin)
+    return filter(response.data, (model) => {
+      return !model.plugin || (model.apiID === 'user' && model.plugin==='users-permissions')
+    })
   }).catch(() => {
     return [];
   });

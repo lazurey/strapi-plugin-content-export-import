@@ -19,21 +19,6 @@ module.exports = {
       message: 'ok',
     });
   },
-  deleteAllContent: async (ctx) => {
-    const validationResult = validator.validateDeleteRequest(ctx.request.body);
-    if (validationResult) {
-      ctx.throw(400, validationResult);
-      return;
-    }
-    const count = await strapi
-      .plugin(PLUGIN_ID)
-      .service('contentExportImportService').deleteAllData(
-      ctx.request.body.targetModelUid, ctx);
-    ctx.send({
-      message: 'ok',
-      count,
-    });
-  },
   getContentByType: async (ctx) => {
     const contentTypeUid = ctx.request.query.uid;
     const data = await strapi

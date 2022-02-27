@@ -18,6 +18,7 @@ import ExportPage from '../ExportPage';
 import ImportPage from '../ImportPage';
 import UtilPage from '../UtilPage';
 import Welcome from '../Welcome';
+const containerStyle = {overflow : 'auto', height: '100vh'};
 
 const App = () => {
   return (
@@ -26,13 +27,11 @@ const App = () => {
         <GridItem col={3} padding={1}>
           <Nav/>
         </GridItem>
-        <GridItem col={9} padding={1}>
+        <GridItem col={9} padding={1} style={containerStyle}>
           <Switch>
             <Route path={`/plugins/${pluginId}/export`} component={ExportPage}
                    exact/>
             <Route path={`/plugins/${pluginId}/import`} component={ImportPage}
-                   exact/>
-            <Route path={`/plugins/${pluginId}/utilities`} component={UtilPage}
                    exact/>
             <Redirect to={`/plugins/${pluginId}/export`}/>
           </Switch>
