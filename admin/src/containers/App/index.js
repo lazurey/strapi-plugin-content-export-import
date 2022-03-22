@@ -7,7 +7,6 @@
 
 import React from 'react';
 import {Redirect, Route, Switch} from 'react-router-dom';
-// import {ErrorBoundary} from '@strapi/helper-plugin';
 import { Grid, GridItem } from '@strapi/design-system/Grid';
 
 // Utils
@@ -16,8 +15,7 @@ import pluginId from '../../pluginId';
 import Nav from '../../components/Nav';
 import ExportPage from '../ExportPage';
 import ImportPage from '../ImportPage';
-import UtilPage from '../UtilPage';
-import Welcome from '../Welcome';
+
 const containerStyle = {overflow : 'auto', height: '100vh'};
 
 const App = () => {
