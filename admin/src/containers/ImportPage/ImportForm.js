@@ -11,6 +11,7 @@ import { FileField, FormAction } from "./ui-components";
 import { readLocalFile } from "../../utils/file";
 import JsonDataDisplay from "../../components/JsonDataDisplay";
 import { importData } from "../../utils/api";
+import {convertCsvToObject} from "../../utils/csvHelper";
 
 const ImportForm = ({models}) => {
   const options = map(models, convertModelToOption);
@@ -45,7 +46,9 @@ const ImportForm = ({models}) => {
       return;
     }
     setLoading(true);
-    readLocalFile(sourceFile, JSON.parse).then(setSource)
+    readLocalFile(sourceFile).then(sourceData => {
+        setSource({data: convertCsvToObject(sourceData)})
+    })
     .catch((error) => {
       setError("Something wrong when uploading the file, please check the file and try again.");
       console.error(error);
@@ -73,9 +76,8 @@ const ImportForm = ({models}) => {
       setError(null);
       setSuccess("Import succeeded!");
     }).catch((error) => {
-      console.log(error);
       setSuccess(null);
-      setError("Import content failed: " + error.message);
+      setError("Import content failed: " + error.response.payload.error.message);
     }).finally(() => {
       setLoading(false);
     });
@@ -96,13 +98,17 @@ const ImportForm = ({models}) => {
       <FileField>
         <input id="source"
                name="source"
-               accept={".json"}
+               accept={".csv"}
                type="file"
                onChange={onSourceFileChange}
         />
       </FileField>
       {source
-        ? (<JsonDataDisplay data={source}/>)
+        ? (
+        <div>
+            Detected {source.data.length} entries from file
+            <JsonDataDisplay data={source.data}/>
+        </div>)
         : (<FormAction>
           <Button disabled={loading}
                   variant="secondary"
