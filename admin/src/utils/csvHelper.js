@@ -40,7 +40,7 @@ export const convertToCsv = (data) => {
 export const convertCsvToObject = (data) => {
     if (!data) return '';
     const objectRows = data.split('\r\n')
-    const objectKeys = objectRows[0].split(',')
+    const objectKeys = objectRows[0].split(/,|;/)
     objectRows.shift()
     const objects = []
     objectRows.map(row => {
