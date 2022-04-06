@@ -36,3 +36,20 @@ export const convertToCsv = (data) => {
         : getRow(keys, data);
     return [keys.join(VALUE_DELIMITER), rows].join(ROW_DELIMITER);
 }
+
+export const convertCsvToObject = (data) => {
+    if (!data) return '';
+    const objectRows = data.split('\r\n')
+    const objectKeys = objectRows[0].split(',')
+    objectRows.shift()
+    const objects = []
+    objectRows.map(row => {
+        let values = row.split(/,|;/)
+        let object = {}
+        values.forEach((value, index) => {
+            object[objectKeys[index]] = value
+        })
+        objects.push(object)
+    })
+    return objects
+}
