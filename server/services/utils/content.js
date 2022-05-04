@@ -25,9 +25,9 @@ const removeCreatorAndUpdaterInfo = (item) => {
   delete item.updatedBy;
 }
 
-const findAll = async (uid) => {
+const findAll = async (uid, populateSchema) => {
   const result = await strapi.entityService.findMany(uid, {
-    populate: '*',
+    populate: populateSchema ? populateSchema : '*',
   });
   if (Array.isArray(result)) {
     result.forEach((value) => {

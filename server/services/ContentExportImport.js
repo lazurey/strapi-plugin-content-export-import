@@ -24,8 +24,8 @@ module.exports = {
       ctx.throw(409, e.message);
     }
   },
-  findAll: async (uid) => {
-    const all = await utils.findAll(uid);
+  findAll: async (uid, populateSchema) => {
+    const all = await utils.findAll(uid, populateSchema);
     return all;
   }
 };
